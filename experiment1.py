@@ -4,6 +4,7 @@ list of random integers and then run all the algorithms from
 threesum.py.
 """
 import time
+import math
 from threesum import generate_list, threesum_brute, threesum_pointer
 
 
@@ -18,6 +19,19 @@ def test_correctness():
         print(f"Brute result: {result_brute}")
         print(f"Pointer result: {result_pointer}")
         print()
+
+
+def logspace_sizes(n_min, n_max, count):
+    log_min = math.log2(n_min)
+    log_max = math.log2(n_max)
+    step = (log_max - log_min) / (count -1)
+
+    sizes = []
+    for i in range(count):
+        log_val = log_min + i * step
+        sizes.append(round(2 ** log_val))
+
+    return sorted(set(sizes))
 
 
 def time_brute():
@@ -35,6 +49,8 @@ def main():
 
     print("=== Threesum brute ===")
     time_brute()
+
+    print(logspace_sizes(250, 900, 15))
 
 
 if __name__ == "__main__":
