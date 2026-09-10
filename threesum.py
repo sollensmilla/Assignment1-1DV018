@@ -21,3 +21,8 @@ def threesum_brute(lst, sum=0):
                     triplet = tuple(sorted((lst[i], lst[j], lst[k])))
                     result.add(triplet)
     return list(result)
+
+def threesum_pointer(lst, sum=0):
+    lst = sorted(lst)
+    n = len(lst)
+    result = set()
