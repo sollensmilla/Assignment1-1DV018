@@ -43,6 +43,15 @@ def time_brute():
         print(f"n={n}: {elapsed:.3f} seconds")
 
 
+def time_pointer():
+    for n in [2000, 3000, 4000, 5000, 9000, 12000]:
+        lst = generate_list(n)
+        start = time.perf_counter()
+        threesum_pointer(lst)
+        elapsed = time.perf_counter() - start
+        print(f"n={n}: {elapsed:.3f} seconds")       
+
+
 def main():
     print("=== Test correctness ===")
     test_correctness()
@@ -50,7 +59,11 @@ def main():
     print("=== Threesum brute ===")
     time_brute()
 
-    print(logspace_sizes(250, 900, 15))
+    print("=== Threesum pointer ===")
+    time_pointer()
+
+    print(f"Logspace sizes for brute: {logspace_sizes(250, 900, 15)}")
+    print(f"Logspace sizes for pointer: {logspace_sizes(2000, 12000, 15)}")
 
 
 if __name__ == "__main__":
