@@ -3,7 +3,7 @@ This file contains the experiments for part 1. It will generate a
 list of random integers and then run all the algorithms from
 threesum.py.
 """
-
+import time
 from threesum import generate_list, threesum_brute, threesum_pointer
 
 
@@ -20,5 +20,15 @@ def test_correctness():
         print()
 
 
+print("=== Test correctness ===")
+
 if __name__ == "__main__":
     test_correctness()
+
+print("=== Threesum brute ===")
+for n in [250, 350, 450, 600, 700, 900]:
+    lst = generate_list(n)
+    start = time.perf_counter()
+    threesum_brute(lst)
+    elapsed = time.perf_counter() - start
+    print(f"n={n}: {elapsed:.3f} seconds")
