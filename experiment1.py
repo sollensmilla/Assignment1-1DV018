@@ -20,15 +20,22 @@ def test_correctness():
         print()
 
 
-print("=== Test correctness ===")
+def time_brute():
+    for n in [250, 350, 450, 600, 700, 900]:
+        lst = generate_list(n)
+        start = time.perf_counter()
+        threesum_brute(lst)
+        elapsed = time.perf_counter() - start
+        print(f"n={n}: {elapsed:.3f} seconds")
 
-if __name__ == "__main__":
+
+def main():
+    print("=== Test correctness ===")
     test_correctness()
 
-print("=== Threesum brute ===")
-for n in [250, 350, 450, 600, 700, 900]:
-    lst = generate_list(n)
-    start = time.perf_counter()
-    threesum_brute(lst)
-    elapsed = time.perf_counter() - start
-    print(f"n={n}: {elapsed:.3f} seconds")
+    print("=== Threesum brute ===")
+    time_brute()
+
+
+if __name__ == "__main__":
+    main()
