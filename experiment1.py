@@ -24,7 +24,7 @@ def test_correctness():
 def logspace_sizes(n_min, n_max, count):
     log_min = math.log2(n_min)
     log_max = math.log2(n_max)
-    step = (log_max - log_min) / (count -1)
+    step = (log_max - log_min) / (count - 1)
 
     sizes = []
     for i in range(count):
@@ -49,21 +49,47 @@ def time_pointer():
         start = time.perf_counter()
         threesum_pointer(lst)
         elapsed = time.perf_counter() - start
-        print(f"n={n}: {elapsed:.3f} seconds")       
+        print(f"n={n}: {elapsed:.3f} seconds")
+
+
+def run_experiment(sizes, func, num_runs=3):
+    times = []
+
+    for run in range(num_runs):
+        run_times = []
+        for n in sizes:
+            lst = generate_list(n)
+            start = time.perf_counter()
+            func(lst)
+            elapsed = time.perf_counter() - start
+            run_times.append(elapsed)
+        times.append(run_times)
+
+    return times
 
 
 def main():
     print("=== Test correctness ===")
     test_correctness()
 
-    print("=== Threesum brute ===")
+    print("=== Running test to see time complexity of brute ===")
     time_brute()
 
-    print("=== Threesum pointer ===")
+    print("=== Running test to see time complexity of pointer ===")
     time_pointer()
 
-    print(f"Logspace sizes for brute: {logspace_sizes(250, 900, 15)}")
-    print(f"Logspace sizes for pointer: {logspace_sizes(2000, 12000, 15)}")
+    brute_sizes = logspace_sizes(250, 900, 15)
+    pointer_sizes = logspace_sizes(2000, 12000, 15)
+    print(f"Logspace sizes for brute: {brute_sizes}")
+    print(f"Logspace sizes for pointer: {pointer_sizes}")
+
+    print("=== Running full experiment for brute ===")
+    brute_times = run_experiment(brute_sizes, threesum_brute)
+    print(brute_times)
+
+    print("=== Running full experiment for pointer ===")
+    pointer_times = run_experiment(pointer_sizes, threesum_pointer)
+    print(pointer_times)
 
 
 if __name__ == "__main__":
