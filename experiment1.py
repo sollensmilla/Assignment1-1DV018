@@ -80,6 +80,14 @@ def plot_runs(sizes, times, title):
     plt.legend()
     plt.show()
 
+def average_times(times):
+    result = []
+    for vals in zip(*times):
+        avg = sum(vals) / len(vals)
+        result.append(avg)
+    return result
+
+
 
 def main():
     print("=== Test correctness ===")
