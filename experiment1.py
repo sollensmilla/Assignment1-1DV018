@@ -5,6 +5,7 @@ threesum.py.
 """
 import time
 import math
+import matplotlib.pyplot as plt
 from threesum import generate_list, threesum_brute, threesum_pointer
 
 
@@ -68,15 +69,27 @@ def run_experiment(sizes, func, num_runs=3):
     return times
 
 
+def plot_runs(sizes, times, title):
+    plt.figure()
+    for i, run_times in enumerate(times):
+        plt.plot(sizes, run_times, marker='o', label=f"Run {i + 1}")
+
+    plt.xlabel("List size (n)")
+    plt.ylabel("Time (seconds)")
+    plt.title(title)
+    plt.legend()
+    plt.show()
+
+
 def main():
     print("=== Test correctness ===")
     test_correctness()
 
-    print("=== Running test to see time complexity of brute ===")
-    time_brute()
+    # print("=== Running test to see time complexity of brute ===")
+    # time_brute()
 
-    print("=== Running test to see time complexity of pointer ===")
-    time_pointer()
+    # print("=== Running test to see time complexity of pointer ===")
+    # time_pointer()
 
     brute_sizes = logspace_sizes(250, 900, 15)
     pointer_sizes = logspace_sizes(2000, 12000, 15)
@@ -90,6 +103,9 @@ def main():
     print("=== Running full experiment for pointer ===")
     pointer_times = run_experiment(pointer_sizes, threesum_pointer)
     print(pointer_times)
+
+    plot_runs(brute_sizes, brute_times, "Brute force: 3 runs")
+    plot_runs(pointer_sizes, pointer_times, "Pointer: 3 runs")
 
 
 if __name__ == "__main__":
