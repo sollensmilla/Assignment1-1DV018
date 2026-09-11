@@ -80,6 +80,7 @@ def plot_runs(sizes, times, title):
     plt.legend()
     plt.show()
 
+
 def average_times(times):
     result = []
     for vals in zip(*times):
@@ -87,6 +88,14 @@ def average_times(times):
         result.append(avg)
     return result
 
+
+def plot_average(sizes, avg_times, title):
+    plt.figure()
+    plt.plot(sizes, avg_times, marker='o')
+    plt.xlabel("List size (n)")
+    plt.ylabel("Average time (seconds)")
+    plt.title(title)
+    plt.show()
 
 
 def main():
@@ -112,8 +121,14 @@ def main():
     pointer_times = run_experiment(pointer_sizes, threesum_pointer)
     print(pointer_times)
 
-    plot_runs(brute_sizes, brute_times, "Brute force: 3 runs")
-    plot_runs(pointer_sizes, pointer_times, "Pointer: 3 runs")
+    plot_runs(brute_sizes, brute_times, "Figure 1 Brute force: 3 runs")
+    plot_runs(pointer_sizes, pointer_times, "Figure 1 Pointer: 3 runs")
+
+    brute_avg = average_times(brute_times)
+    pointer_avg = average_times(pointer_times)
+
+    plot_average(brute_sizes, brute_avg, "Figure 1a Brute force: average of 3 runs")
+    plot_average(pointer_sizes, pointer_avg, "Figure 1a Pointer: Average of 3 runs")
 
 
 if __name__ == "__main__":
