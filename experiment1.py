@@ -121,6 +121,20 @@ def estimate_complexity(sizes, avg_times, label):
     return log_sizes, log_times, m, k
 
 
+def plot_loglog(log_sizes, log_times, m, k, title):
+    plt.figure()
+    plt.scatter(log_sizes, log_times, label="data")
+
+    fit_line = [m + k * x for x in log_sizes]
+    plt.plot(log_sizes, fit_line, color='red', label=f"fit, k={k:.3f}")
+
+    plt.xlabel("log2(list size)")
+    plt.ylabel("log2(time)")
+    plt.title(title)
+    plt.legend()
+    plt.show()
+
+
 def main():
     print("=== Test correctness ===")
     test_correctness()
@@ -155,6 +169,9 @@ def main():
 
     brute_log_sizes, brute_log_times, brute_m, brute_k = estimate_complexity(brute_sizes, brute_avg, "Brute force")
     pointer_log_sizes, pointer_log_times, pointer_m, pointer_k = estimate_complexity(pointer_sizes, pointer_avg, "Pointer")
+
+    plot_loglog(brute_log_sizes, brute_log_times, brute_m, brute_k, "Brute force: log-log fit")
+    plot_loglog(pointer_log_sizes, pointer_log_times, pointer_m, pointer_k, "Pointer: log-log fit")
 
 
 if __name__ == "__main__":
