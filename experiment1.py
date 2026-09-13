@@ -172,7 +172,7 @@ def main():
     )
 
     brute_log_sizes, brute_log_times, brute_m, brute_k = (
-        brute_sizes, brute_avg, "Brute force"
+        estimate_complexity(brute_sizes, brute_avg, "Brute force")
     )
     pointer_log_sizes, pointer_log_times, pointer_m, pointer_k = (
         estimate_complexity(pointer_sizes, pointer_avg, "Pointer")

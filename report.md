@@ -14,6 +14,18 @@ To avoid duplicating code between the brute force and pointer experiments, I des
 
 ### 2. Results and comparison
 
+**Figure 1 - three runs per algorithm**
+
+![Figure 1: Brute force, 3 runs](images/brute_3runs.png)
+![Figure 1: Pointer, 3 runs](images/pointer_3runs.png)
+
+For both algorithms, the three runs produced nearly identical timing curves, with only minor variation between runs. This is expected since `time.perf_counter()` measures elapsed wall-clock time with high precision, and both algorithms are deterministic in terms of the number of operations they perform. The specific integer value in the list does not affect the runtime, only the lists size does. This low variance also suggests that the measurements are reliable enough to average and use for further experiments. 
+
+**Figure 1a - average of three runs**
+
+![Figure 1a: Brute force average](images/brute_average.png)
+![Figure 1a: Pointer average](images/pointer_average.png)
+
 ### 3. Mathematical derivation
 
 ### 4. How the pointer approach works
