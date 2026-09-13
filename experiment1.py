@@ -164,14 +164,28 @@ def main():
     brute_avg = average_times(brute_times)
     pointer_avg = average_times(pointer_times)
 
-    plot_average(brute_sizes, brute_avg, "Figure 1a Brute force: average of 3 runs")
-    plot_average(pointer_sizes, pointer_avg, "Figure 1a Pointer: Average of 3 runs")
+    plot_average(
+        brute_sizes, brute_avg, "Figure 1a Brute force: average of 3 runs"
+    )
+    plot_average(
+        pointer_sizes, pointer_avg, "Figure 1a Pointer: Average of 3 runs"
+    )
 
-    brute_log_sizes, brute_log_times, brute_m, brute_k = estimate_complexity(brute_sizes, brute_avg, "Brute force")
-    pointer_log_sizes, pointer_log_times, pointer_m, pointer_k = estimate_complexity(pointer_sizes, pointer_avg, "Pointer")
+    brute_log_sizes, brute_log_times, brute_m, brute_k = (
+        brute_sizes, brute_avg, "Brute force"
+    )
+    pointer_log_sizes, pointer_log_times, pointer_m, pointer_k = (
+        estimate_complexity(pointer_sizes, pointer_avg, "Pointer")
+    )
 
-    plot_loglog(brute_log_sizes, brute_log_times, brute_m, brute_k, "Brute force: log-log fit")
-    plot_loglog(pointer_log_sizes, pointer_log_times, pointer_m, pointer_k, "Pointer: log-log fit")
+    plot_loglog(
+        brute_log_sizes, brute_log_times, brute_m, brute_k,
+        "Brute force: log-log fit"
+    )
+    plot_loglog(
+        pointer_log_sizes, pointer_log_times, pointer_m, pointer_k,
+        "Pointer: log-log fit"
+    )
 
 
 if __name__ == "__main__":
