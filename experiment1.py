@@ -98,6 +98,29 @@ def plot_average(sizes, avg_times, title):
     plt.show()
 
 
+def lin_reg(x, y):
+    n = len(x)
+    sum_x = sum(x)
+    sum_y = sum(y)
+    sum_xy = sum(xi * yi for xi, yi in zip(x, y))
+    sum_x2 = sum(xi ** 2 for xi in x)
+
+    k = (n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x ** 2)
+    m = (sum_y / n) - k * (sum_x / n)
+
+    return m, k
+
+
+def estimate_complexity(sizes, avg_times, label):
+    log_sizes = [math.log2(n) for n in sizes]
+    log_times = [math.log2(t) for t in avg_times]
+
+    m, k = lin_reg(log_sizes, log_times)
+    print(f"{label}: estimated complexity exponent k = {k:.3f}")
+
+    return log_sizes, log_times, m, k
+
+
 def main():
     print("=== Test correctness ===")
     test_correctness()
@@ -129,6 +152,9 @@ def main():
 
     plot_average(brute_sizes, brute_avg, "Figure 1a Brute force: average of 3 runs")
     plot_average(pointer_sizes, pointer_avg, "Figure 1a Pointer: Average of 3 runs")
+
+    brute_log_sizes, brute_log_times, brute_m, brute_k = estimate_complexity(brute_sizes, brute_avg, "Brute force")
+    pointer_log_sizes, pointer_log_times, pointer_m, pointer_k = estimate_complexity(pointer_sizes, pointer_avg, "Pointer")
 
 
 if __name__ == "__main__":
