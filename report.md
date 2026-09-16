@@ -31,8 +31,24 @@ However, the pointer curve grows noticeably less steeply relative to its own lis
 
 **Comparing brute force and pointer**
 
-The practical difference in performance is substantial. Brute force takes approximately 4.6-4.8 seconds for a list size of n=900, while pointer takes about 4.5-4.7 seconds for a list size of n=12000(over 13 times larger). Thus demonstrates the importance of algoritmic complexity, at roughly the same computation time the pointer approach can handle dramatically larger input.
+The practical difference in performance is substantial. Brute force takes approximately 4.6-4.8 seconds for a list size of n=900, while pointer takes about 4.5-4.7 seconds for a list size of n=12000 (over 13 times larger). Thus demonstrates the importance of algoritmic complexity, at roughly the same computation time the pointer approach can handle dramatically larger input.
 
 ### 3. Mathematical derivation
+
+To estimate the time complexity of each algorithm, I used a log-log linear regression approach as stated in the assginment. If execution time follows `time ≈ C · n^k`, taking the logarithm of both sides gives:
+
+ `log(time) = log(C) + k · log(n)`
+
+This is a linear equation of the form y = m + k·x, where x = log(n) and y = log(time). This means that if the algorithms complexity really is O(n^k), plotting log(time) against log(n) should produce points that fall close to a straight line, with the lines slope equal to k. 
+
+I implemented `lin_reg(x, y)` using the ordinary least squares method. Applying this to the logw-transofrmed size and average-time data gave the following resuls:
+
+- Brute force: k = 3.052
+- Pointer: k = 2.025
+
+![Figure 2b: Brute log-log fit](images/brute_loglog.png)
+![Figure 2b: Pointer log-log fit](images/pointer_loglog.png)
+
+Both plots show the data points closely following the fitted straight line, supporting the validity of the log-log approach. Measured k-values are very close to the theoretical complexies: k ≈ 3 for threesum_brute (three nested loops, O(n³)) and k ≈ 2 for the threesum_pointer (two pointers scanning a sorted list, O(n²))
 
 ### 4. How the pointer approach works
