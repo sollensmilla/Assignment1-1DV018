@@ -26,6 +26,13 @@ For both algorithms, the three runs produced nearly identical timing curves, wit
 ![Figure 1a: Brute force average](images/brute_average.png)
 ![Figure 1a: Pointer average](images/pointer_average.png)
 
+Both curves show clear upward-curving (non-linear) gorwth, consistent with the expected time complexity of both algorithms.
+However, the pointer curve grows noticeably less steeply relative to its own list sizes than the brute force curve does. This is a visual hint that the pointer has a lower time complexity than brute force does, before even performing the log-log analysis in the next section. 
+
+**Comparing brute force and pointer**
+
+The practical difference in performance is substantial. Brute force takes approximately 4.6-4.8 seconds for a list size of n=900, while pointer takes about 4.5-4.7 seconds for a list size of n=12000(over 13 times larger). Thus demonstrates the importance of algoritmic complexity, at roughly the same computation time the pointer approach can handle dramatically larger input.
+
 ### 3. Mathematical derivation
 
 ### 4. How the pointer approach works
