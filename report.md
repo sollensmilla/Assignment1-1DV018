@@ -52,3 +52,31 @@ I implemented `lin_reg(x, y)` using the ordinary least squares method. Applying 
 Both plots show the data points closely following the fitted straight line, supporting the validity of the log-log approach. Measured k-values are very close to the theoretical complexies: k ≈ 3 for threesum_brute (three nested loops, O(n³)) and k ≈ 2 for the threesum_pointer (two pointers scanning a sorted list, O(n²))
 
 ### 4. How the pointer approach works
+
+The pointer approach solves the 3-sum problem in O(n²) instead of O(n³) by exploiting the a sorted list gives information about which direction to search in.
+
+**Sorting first**
+
+The algorithm begins by sorting a copy of the input list using `sorted(lst)`, which creates a new list and leaves the original unchanged. Sorting is essential to the method: in a sorted list, moving right always means lartger values and moving left always means smaller values. Without this property, the algorithm would have no way of knowing how to adjust the search. 
+
+**Fixing one value and searching for a pair**
+
+The outer loop fixes one element, `lst[i]`, and the problem is then reduced to a 2-sum problem (finding two values in the remaining part of the list that together with `lst[i]` sum to the target)
+
+**The two pointers**
+
+Two pointers are placed at each end of the remaining part of the list, `left` just after `i` and `right` at the end. The sum of the three values is compared to the target.
+
+- If the sum ewuals the target, a valid triplet is found. It is then stores, and both pointers move inward to continue searching.
+- If the sum is too small, `left` moves right, which increases the sum.
+- If the sum is too large, `right`moves left, which decreases the sum. 
+
+The pointers keep moving toward each other until they meet, at which point all possible pairs for that value of `i` have been considered. 
+
+**Why this gives O(n²)**
+
+The outer loop runs approximately n times. For each iteration, the two pointers together traverse the remaining part of the list at most once, since each step moves one pointer permanently closer to the other. This makes the inner search O(n), giving a total complexity of O(n) x O(n) = O(n²), compared to the three nested loops of the brute force version.
+
+**Handling uniqueness**
+
+Because the list is sorted and the indices alweays satisfy i < left < right, each triplet is produced in ascending order automatically. Unlike the brute force version, no additional sorting of the triplet is required before storing it. A `set`is still used to guarantee that duplicate triplets (which can occur when the input contains repeated values) appear only once in the result.
