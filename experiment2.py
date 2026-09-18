@@ -1,4 +1,4 @@
-from sorting import generate_random_list, selection_sort
+from sorting import generate_random_list, selection_sort, bubble_sort
 
 
 def test_correctness(sort_func, label):
@@ -16,6 +16,7 @@ def test_correctness(sort_func, label):
 def main():
     print("=== Test Correctness ===")
     test_correctness(selection_sort, "Selection sort")
+    test_correctness(bubble_sort, "Bubble sort")
 
 
 if __name__ == "__main__":
