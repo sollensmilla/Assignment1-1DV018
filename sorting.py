@@ -29,3 +29,17 @@ def bubble_sort(lst):
                 result[j], result[j + 1] = result[j + 1], result[j]
 
     return result
+
+
+def insertion_sort(lst):
+    result = lst.copy()
+
+    for i in range(1, len(result)):
+        key = result[i]
+        j = i - 1
+        while j >= 0 and result[j] > key:
+            result[j + 1] = result[j]
+            j -= 1
+        result[j + 1] = key
+
+    return result
