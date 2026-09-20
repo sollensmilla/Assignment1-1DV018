@@ -105,3 +105,16 @@ def plot_loglog(log_sizes, log_times, m, k, title):
     plt.title(title)
     plt.legend()
     plt.show()
+
+
+def plot_comparison(sizes, results, title):
+    plt.figure()
+    for label, avg_times in results.items():
+        plt.plot(sizes, avg_times, marker='o', label=label)
+
+    plt.xlabel("List size(n)")
+    plt.ylabel("Average time (seconds)")
+    plt.title(title)
+    plt.legend()
+    plt.show()
+
