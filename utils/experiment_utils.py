@@ -88,7 +88,7 @@ def plot_averages(sizes, avg_times, title):
     plt.figure()
     plt.plot(sizes, avg_times, marker='o')
     plt.xlabel("List size (n)")
-    plt.ylabel("Aberage time (seconds)")
+    plt.ylabel("Average time (seconds)")
     plt.title(title)
     plt.show()
 
@@ -118,3 +118,16 @@ def plot_comparison(sizes, results, title):
     plt.legend()
     plt.show()
 
+
+def plot_loglog_comparison(log_sizes, results, title):
+    plt.figure()
+    for label, (log_times, m, k) in results.items():
+        plt.scatter(log_sizes, log_times, label=f"{label} k={k:.3f}")
+        fit_line = [m + k * x for x in log_sizes]
+        plt.plot(log_sizes, fit_line)
+
+    plt.xlabel("log2(list size)")
+    plt.ylabel("log2(time)")
+    plt.title(title)
+    plt.legend()
+    plt.show()
