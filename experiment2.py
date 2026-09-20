@@ -1,4 +1,4 @@
-from sorting import generate_random_list, selection_sort, bubble_sort, insertion_sort
+from quadratic_time_algorithms import generate_random_list, selection_sort, bubble_sort, insertion_sort
 
 
 def test_correctness(sort_func, label, original):
