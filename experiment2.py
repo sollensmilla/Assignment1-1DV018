@@ -5,6 +5,14 @@ from quadratic_time_algorithms import (
     bubble_sort,
     insertion_sort
 )
+from utils.experiment_utils import (
+    logspace_sizes,
+    run_experiment,
+    average_times,
+    estimate_complexity,
+    plot_comparison,
+    plot_loglog_comparison,
+)
 
 
 def test_correctness(sort_func, label, original):
@@ -46,7 +54,37 @@ def main():
     test_correctness(bubble_sort, "Bubble sort", original)
     test_correctness(insertion_sort, "Insertion sort", original)
 
-    explore_sizes()
+    sizes = logspace_sizes(3000, 12500, 15)
+    print(f"Sizes: {sizes}")
+
+    algorithms = {
+        "Selection sort": selection_sort,
+        "Bubble sort": bubble_sort,
+        "Insertion sort": insertion_sort
+    }
+
+    avg_times_per_algo = {}
+    complexity_per_algo = {}
+
+    for label, func in algorithms.items():
+        print(f"=== Running full experiment for {label} ===")
+        times = run_experiment(sizes, func, generate_random_list)
+        avg_times = average_times(times)
+        avg_times_per_algo[label] = avg_times
+
+        log_sizes, log_times, m, k = estimate_complexity(
+            sizes, avg_times, label
+        )
+        complexity_per_algo[label] = (log_times, m, k)
+
+    plot_comparison(
+         sizes, avg_times_per_algo,
+        "Figure: O(n^2) algorithms, average time"
+    )
+    plot_loglog_comparison(
+        log_sizes, complexity_per_algo,
+        "Figure: O(n^2) algorithms, log-log fit"
+    )
 
 
 if __name__ == "__main__":
