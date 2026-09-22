@@ -8,6 +8,7 @@ def merge_sort(lst):
 
     return merge(left, right)
 
+
 def merge(left, right):
     result = []
     i, j = 0, 0
