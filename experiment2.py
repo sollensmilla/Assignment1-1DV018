@@ -11,6 +11,11 @@ from n_log_n_algorithms import (
     quick_sort
 )
 
+from special_case_algorithms import (
+    bucket_sort,
+    radix_sort
+)
+
 from utils.experiment_utils import (
     logspace_sizes,
     run_experiment,
@@ -76,12 +81,16 @@ def main():
     test_correctness(bubble_sort, "Bubble sort", original)
     test_correctness(insertion_sort, "Insertion sort", original)
 
-    print("=== n log n algorithms ===")
+    print("=== N log n algorithms ===")
     test_correctness(merge_sort, "Merge sort", original)
     test_correctness(quick_sort, "Quick sort", original)
 
+    print("=== Special case algorithms ===")
+    test_correctness(bucket_sort, "Bucket sort", original)
+    test_correctness(radix_sort, "Radix sort", original)
+
     sizes = logspace_sizes(3000, 12500, 15)
-    print(f"Sizes: {sizes}")
+    print(f"Quadratic sizes: {sizes}")
 
     algorithms = {
         "Selection sort": selection_sort,
