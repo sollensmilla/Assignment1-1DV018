@@ -67,7 +67,11 @@ def main():
     print(brute_times)
 
     print("=== Running full experiment for pointer ===")
-    pointer_times = run_experiment(pointer_sizes, threesum_pointer, generate_list)
+    pointer_times = run_experiment(
+        pointer_sizes,
+        threesum_pointer,
+        generate_list
+    )
     print(pointer_times)
 
     plot_runs(brute_sizes, brute_times, "Figure 1 Brute force: 3 runs")

@@ -204,11 +204,57 @@ def run_special_case_experiment():
     )
 
 
+def run_nlogn_and_spcieal_case_experiment():
+    sizes = logspace_sizes(150000, 2300000, 15)
+    print(f"Sizes for n log n and spcieal case: {sizes}")
+
+    algorithms = {
+        "Merge sort": merge_sort,
+        "Quick sort": quick_sort,
+        "Bucket sort": bucket_sort,
+        "Radix sort": radix_sort
+    }
+
+    avg_times, complexity, log_sizes = run_algorithm_experiments(
+        sizes, algorithms
+    )
+
+    # Plot 1: Only the O(n log n) algortihms
+    nlogn_avg_times = {
+        label: avg_times[label] for label in ["Merge sort", "Quick sort"]
+    }
+    nlogn_complexity = {
+        label: complexity[label] for label in ["Merge sort", "Quick sort"]
+    }
+
+    plot_comparison(
+        sizes,
+        nlogn_avg_times,
+        "Figure: =(n log n) algorithms, average time"
+    )
+    plot_loglog_comparison(
+        log_sizes,
+        nlogn_complexity,
+        "Figure: O(n log n) algorithms, log-log fit"
+    )
+
+    # Plot 2: Compare n log n to special case algortihms
+    plot_comparison(
+        sizes,
+        avg_times,
+        "Figure: Special case vs n log n, average time"
+    )
+    plot_loglog_comparison(
+        log_sizes,
+        complexity,
+        "Figure: Special case vs n log n, log-log fit"
+    )
+
+
 def main():
     test_all_correctness()
     run_quadratic_experiment()
-    run_nlogn_experiment()
-    run_special_case_experiment()
+    run_nlogn_and_spcieal_case_experiment()
 
 
 if __name__ == "__main__":
