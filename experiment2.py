@@ -71,7 +71,22 @@ def explore_nlogn_sizes():
         print(f"Quick, n={n}: {elapsed:.3f} seconds")
 
 
-def main():
+def explore_special_sizes():
+    for n in [150000, 1000000, 2300000]:
+        lst = generate_random_list(n)
+
+        start = time.perf_counter()
+        bucket_sort(lst)
+        elapsed = time.perf_counter() - start
+        print(f"Bucket, n={n}: {elapsed:.3f} seconds")
+
+        start = time.perf_counter()
+        radix_sort(lst)
+        elapsed = time.perf_counter() - start
+        print(f"Radix, n={n}: {elapsed:.3f} seconds")
+
+
+def test_all_correctness():
     print("=== Test Correctness ===")
     original = generate_random_list(10)
     print(f"Original: {original}")
@@ -89,15 +104,8 @@ def main():
     test_correctness(bucket_sort, "Bucket sort", original)
     test_correctness(radix_sort, "Radix sort", original)
 
-    sizes = logspace_sizes(3000, 12500, 15)
-    print(f"Quadratic sizes: {sizes}")
 
-    algorithms = {
-        "Selection sort": selection_sort,
-        "Bubble sort": bubble_sort,
-        "Insertion sort": insertion_sort
-    }
-
+def run_algorithm_experiments(sizes, algorithms):
     avg_times_per_algo = {}
     complexity_per_algo = {}
 
@@ -112,47 +120,95 @@ def main():
         )
         complexity_per_algo[label] = (log_times, m, k)
 
+    return avg_times_per_algo, complexity_per_algo, log_sizes
+
+
+def run_quadratic_experiment():
+    sizes = logspace_sizes(3000, 12500, 15)
+    print(f"Quadratic sizes: {sizes}")
+
+    algorithms = {
+        "Selection sort": selection_sort,
+        "Bubble sort": bubble_sort,
+        "Insertion sort": insertion_sort
+    }
+
+    avg_times, complexity, log_sizes = run_algorithm_experiments(
+        sizes, algorithms
+    )
+
     plot_comparison(
-        sizes, avg_times_per_algo,
+        sizes,
+        avg_times,
         "Figure: O(n^2) algorithms, average time"
     )
 
     plot_loglog_comparison(
-        log_sizes, complexity_per_algo,
+        log_sizes,
+        complexity,
         "Figure: O(n^2) algorithms, log-log fit"
     )
 
-    nlogn_sizes = logspace_sizes(150000, 2300000, 15)
-    print(f"N log n sizes: {nlogn_sizes}")
 
-    nlogn_algorithms = {
+def run_nlogn_experiment():
+    sizes = logspace_sizes(150000, 2300000, 15)
+    print(f"N log n sizes: {sizes}")
+
+    algorithms = {
         "Merge sort": merge_sort,
-        "Quick sort": quick_sort,
+        "Quick sort": quick_sort
     }
 
-    nlogn_avg_times = {}
-    nlogn_complexity = {}
-
-    for label, func in nlogn_algorithms.items():
-        print(f"=== Running full experiment for {label} ===")
-        times = run_experiment(nlogn_sizes, func, generate_random_list)
-        avg_times = average_times(times)
-        nlogn_avg_times[label] = avg_times
-
-        nlogn_log_sizes, log_times, m, k = estimate_complexity(
-            nlogn_sizes, avg_times, label
-        )
-        nlogn_complexity[label] = (log_times, m, k)
+    avg_times, complexity, log_sizes = run_algorithm_experiments(
+        sizes, algorithms
+    )
 
     plot_comparison(
-        nlogn_sizes, nlogn_avg_times,
+        sizes,
+        avg_times,
         "Figure: O(n log n) algorithms, average time"
     )
 
     plot_loglog_comparison(
-        nlogn_log_sizes, nlogn_complexity,
-        "Figure: O(n log n) algorithms, loglog fit"
+        log_sizes,
+        complexity,
+        "Figure: O(n log n) algorithms, log-log fit"
     )
+
+
+def run_special_case_experiment():
+    sizes = logspace_sizes(150000, 2300000, 15)
+    print(f"Speciqal case sizes: {sizes}")
+
+    algorithms = {
+        "Merge sort": merge_sort,
+        "Quick sort": quick_sort,
+        "Bucket sort": bucket_sort,
+        "Radix sort": radix_sort
+    }
+
+    avg_times, complexity, log_sizes = run_algorithm_experiments(
+        sizes, algorithms
+    )
+
+    plot_comparison(
+        sizes,
+        avg_times,
+        "Figure: Special case vs n log n algorithms, average time"
+    )
+
+    plot_loglog_comparison(
+        log_sizes,
+        complexity,
+        "Figure: Special case vs n log n algortihms, log-log fit"
+    )
+
+
+def main():
+    test_all_correctness()
+    run_quadratic_experiment()
+    run_nlogn_experiment()
+    run_special_case_experiment()
 
 
 if __name__ == "__main__":
